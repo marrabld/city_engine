@@ -153,8 +153,6 @@ namespace tests{
                   std::endl;
     }
 
-
-
     int test8(){
         float a;
         Vector3D myVec = Vector3D(3, 4, -3);
@@ -198,14 +196,91 @@ namespace tests{
         Matrix z(2, 2);
 
         a.set(0, 0, 3);
+        a.set(0, 1, 11);
+        a.set(1, 0, 2);
 
         b.set(0, 0, -4);
+        b.set(0, 1, -2);
+        b.data[1][1] = 3;
 
         z = Math::add(a, b);
 
         z.Pprint();
 
         return 0;
+
+    }
+
+    int test10(){
+
+        Matrix a(2, 3);
+        Matrix b(3, 4);
+        Matrix z(2, 2);
+        Matrix q(2, 2);
+
+        a.set(0, 0, -2);
+        a.set(0, 1, 3);
+        a.set(0, 2, 2);
+        a.set(1, 0, 4);
+        a.set(1, 1, 6);
+        a.set(1, 2, -2);
+
+        std::cout << "==============================" << std::endl;
+        std::cout << "A = " << std::endl;
+        a.Pprint();
+
+        b.set(0, 0, 4);
+        b.set(0, 1, -1);
+        b.set(0, 2, 2);
+        b.set(0, 3, 5);
+        b.set(1, 0, 3);
+        b.set(1, 1, 0);
+        b.set(1, 2, 1);
+        b.set(1, 3, 1);
+        b.set(2, 0, -2);
+        b.set(2, 1, 3);
+        b.set(2, 2, 5);
+        b.set(2, 3, -3);
+
+        std::cout << "B = " << std::endl;
+        b.Pprint();
+
+        z = Math::multiply(a, b);
+
+        std::cout << "A * B = " << std::endl;
+        z.Pprint();
+
+        std::cout << "==============================" << std::endl;
+
+        Matrix c = Matrix(2, 2);
+        Matrix d = Matrix(2, 2);
+
+        c.set(0, 0 , -1);
+        c.set(0, 1, 2);
+        c.set(1, 0, 3);
+        c.set(1, 1, -4);
+
+        std::cout << "C = " << std::endl;
+        b.Pprint();
+
+        d.set(0, 0, 0);
+        d.set(0, 1, 1);
+        d.set(1, 0, 2);
+        d.set(1, 1, 5);
+
+        std::cout << "c = " << std::endl;
+        b.Pprint();
+
+        std::cout << "C * D = " << std::endl;
+
+        q = Math::multiply(c, d);
+        q.Pprint();
+
+        std::cout << "D * C = " << std::endl;
+
+        q = Math::multiply(d, c);
+        q.Pprint();
+        std::cout << "==============================" << std::endl;
 
     }
 

@@ -22,6 +22,9 @@ namespace tests {
     int test8();
 
     int test9();
+
+    // Matrix Multiplication
+    int test10();
 }
 
 #endif //GAME_ENGINE_TESTS_H

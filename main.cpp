@@ -20,7 +20,9 @@ int main() {
     //Matrix tests
     // test7();
 
-    test9();
+    // test9();
+
+    test10();
 
     return 0;
 }

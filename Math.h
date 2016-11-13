@@ -10,13 +10,21 @@
 
 namespace Math{
     Vector3D add(Vector3D a, Vector3D b);
+    Vector3D add(float a, Vector3D b);
+
     Matrix add(Matrix a, Matrix b);
+    Matrix add(float a, Matrix b);
 
     Vector3D subtract(Vector3D a, Vector3D b);
+    Vector3D subtract(float a, Vector3D b);
     Matrix subtract(Matrix a, Matrix b);
+    Matrix subtract(float a, Matrix b);
 
     Vector3D multiply(Vector3D a, Vector3D b);
+    Vector3D multiply(float a, Vector3D);
+
     Matrix multiply(Matrix a, Matrix b);
+    Matrix multiply(float a, Matrix b);
 
     Vector3D cross(Vector3D a, Vector3D b);
 

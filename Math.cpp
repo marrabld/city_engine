@@ -9,6 +9,10 @@ namespace Math{
     Vector3D add(Vector3D a, Vector3D b){
         return Vector3D(a.x + b.x, a.y + b.y, a.z + b.z);
     }
+    Vector3D add(float a, Vector3D b){
+        Vector3D z = Vector3D(b.x + a, b.y + a, b.z + a);
+        return z;
+    }
     Matrix add(Matrix a, Matrix b) {
 
         Matrix z = Matrix(a.rows, a.cols);
@@ -20,10 +24,23 @@ namespace Math{
         }
         return z;
     }
+    Matrix add(float a, Matrix b){
+        Matrix v = Matrix(b.rows, b.cols);
+        for (int i=0; i < b.rows; i++){
+            for (int j=0; j < b.cols; j++){
+                v.data[i][j] = b.data[i][j] + a;
+            }
+        }
+        return v;
+    }
 
     Vector3D multiply(Vector3D a, Vector3D b){
     return Vector3D(a.x * b.x, a.y * b.y, a.z * b.z);
 
+    }
+    Vector3D multiply(float a, Vector3D b){
+        Vector3D z = Vector3D(b.x * a, b.y * a, b.z * a);
+        return z;
     }
     Matrix multiply(Matrix a, Matrix b){
 
@@ -38,9 +55,22 @@ namespace Math{
         }
         return z;
     }
+    Matrix multiply(float a, Matrix b){
+        Matrix v = Matrix(b.rows, b.cols);
+        for (int i=0; i < b.rows; i++){
+            for (int j=0; j < b.cols; j++){
+                v.data[i][j] = b.data[i][j] * a;
+            }
+        }
+        return v;
+    }
 
     Vector3D subtract(Vector3D a, Vector3D b){
         return Vector3D(a.x - b.x, a.y - b.y, a.z - b.z);
+    }
+    Vector3D subtract(float a, Vector3D b){
+        Vector3D z = Vector3D(b.x - a, b.y - a, b.z - a);
+        return z;
     }
     Matrix subtract(Matrix a, Matrix b){
         Matrix z = Matrix(a.rows, a.cols);
@@ -52,7 +82,15 @@ namespace Math{
         }
         return z;
     }
-
+    Matrix subtract(float a, Matrix b){
+        Matrix v = Matrix(b.rows, b.cols);
+        for (int i=0; i < b.rows; i++){
+            for (int j=0; j < b.cols; j++){
+                v.data[i][j] = b.data[i][j] - a;
+            }
+        }
+        return v;
+    }
 
     Vector3D cross(Vector3D a, Vector3D b){
         Vector3D _cross = Vector3D();

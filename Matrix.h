@@ -23,7 +23,7 @@ public:
     void set(size_t _row, size_t _col, float value);
     float get(int _row, int _col);
 
-    // Methodds
+    // Methods
     void Pprint(void);
     std::vector<int> Shape(void);
 

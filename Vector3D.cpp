@@ -47,7 +47,7 @@ void Vector3D::Pprint(){
               ", " <<
               std::to_string(z) <<
               "]" <<
-              std::endl;
+              std::endl << std::endl;
 }
 
 

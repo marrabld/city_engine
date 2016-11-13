@@ -3,6 +3,7 @@
 using namespace tests;
 
 int main() {
+    // Vector tests
     // Test 1 Subtract
     //tests::test1();
     // Test 2 dot product
@@ -21,8 +22,11 @@ int main() {
     // test7();
 
     // test9();
-
-    test10();
+    // Matrix multiplication
+    // test10();
+    // Matrix subtraction
+    // test11();
+    test12();
 
     return 0;
 }

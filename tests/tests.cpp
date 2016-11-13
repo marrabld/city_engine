@@ -261,15 +261,15 @@ namespace tests{
         c.set(1, 1, -4);
 
         std::cout << "C = " << std::endl;
-        b.Pprint();
+        c.Pprint();
 
         d.set(0, 0, 0);
         d.set(0, 1, 1);
         d.set(1, 0, 2);
         d.set(1, 1, 5);
 
-        std::cout << "c = " << std::endl;
-        b.Pprint();
+        std::cout << "D = " << std::endl;
+        d.Pprint();
 
         std::cout << "C * D = " << std::endl;
 
@@ -281,6 +281,87 @@ namespace tests{
         q = Math::multiply(d, c);
         q.Pprint();
         std::cout << "==============================" << std::endl;
+
+    }
+
+    int test11(){
+        std::cout << "==============================" << std::endl;
+
+        Matrix c = Matrix(2, 2);
+        Matrix d = Matrix(2, 2);
+        Matrix q = Matrix(2, 2);
+
+
+        c.set(0, 0 , -1);
+        c.set(0, 1, 2);
+        c.set(1, 0, 3);
+        c.set(1, 1, -4);
+
+        std::cout << "C = " << std::endl;
+        c.Pprint();
+
+        d.set(0, 0, 0);
+        d.set(0, 1, 1);
+        d.set(1, 0, 2);
+        d.set(1, 1, 5);
+
+        std::cout << "D = " << std::endl;
+        d.Pprint();
+
+        std::cout << "C - D = " << std::endl;
+
+        q = Math::subtract(c, d);
+        q.Pprint();
+
+}
+
+    int test12(){
+        std::cout << "==============================" << std::endl;
+        Vector3D a = Vector3D(2, 3, 4);
+        Vector3D q;// = Vector3D(0, 0, 0);
+
+        std::cout << "A = " << std::endl;
+        a.Pprint();
+
+        std::cout << "A + 10 = " << std::endl << std::endl;
+
+        q = Math::add(10, a);
+        q.Pprint();
+
+        std::cout << "A - 10 = " << std::endl << std::endl;
+
+        q = Math::subtract(10, a);
+        q.Pprint();
+
+        std::cout << "A * 10 = " << std::endl << std::endl;
+
+        q = Math::multiply(10, a);
+        q.Pprint();
+
+        std::cout << "==============================" << std::endl;
+
+        Matrix c = Matrix(2, 2);
+        Matrix z = Matrix(2, 2);
+
+        c.set(0, 0 , -1);
+        c.set(0, 1, 2);
+        c.set(1, 0, 3);
+        c.set(1, 1, -4);
+
+        std::cout << "C = " << std::endl;
+        c.Pprint();
+
+        std::cout << "C + 10 = " << std::endl;
+        z = Math::add(10, c);
+        z.Pprint();
+
+        std::cout << "C - 10 = " << std::endl;
+        z = Math::subtract(10, c);
+        z.Pprint();
+
+        std::cout << "C * 10 = " << std::endl;
+        z = Math::multiply(10, c);
+        z.Pprint();
 
     }
 

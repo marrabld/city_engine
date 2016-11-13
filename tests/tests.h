@@ -25,6 +25,10 @@ namespace tests {
 
     // Matrix Multiplication
     int test10();
+    // Matrix Subtraction
+    int test11();
+
+    int test12();
 }
 
 #endif //GAME_ENGINE_TESTS_H

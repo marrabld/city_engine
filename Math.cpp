@@ -42,6 +42,21 @@ namespace Math{
         Vector3D z = Vector3D(b.x * a, b.y * a, b.z * a);
         return z;
     }
+    Vector3D multiply(Matrix a, Vector3D b){
+        Vector3D z = Vector3D();
+        //for (int i=0; i < a.rows; i++){
+            //for (int j=0; j < a.cols; j++){
+        z.x = a.data[0][0] * b.y +a.data[0][1] * b.x + a.data[0][2] * b.z;
+        z.y = a.data[1][0] * b.y +a.data[1][1] * b.x + a.data[1][2] * b.z;
+        z.x = a.data[2][0] * b.y +a.data[2][1] * b.x + a.data[2][2] * b.z;
+
+        return z;
+            //}
+
+        //}
+
+
+    }
     Matrix multiply(Matrix a, Matrix b){
 
         Matrix z = Matrix(a.rows, b.cols);

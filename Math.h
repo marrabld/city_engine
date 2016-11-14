@@ -22,6 +22,7 @@ namespace Math{
 
     Vector3D multiply(Vector3D a, Vector3D b);
     Vector3D multiply(float a, Vector3D);
+    Vector3D multiply(Matrix a, Vector3D b);
 
     Matrix multiply(Matrix a, Matrix b);
     Matrix multiply(float a, Matrix b);

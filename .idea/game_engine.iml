@@ -9,14 +9,16 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/tests.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Shapes.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Vector3D.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Math.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Shapes.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Cube.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Math.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Render.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Render.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Matrix.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/common/LoadShaders.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/common/LoadShaders.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Matrix.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

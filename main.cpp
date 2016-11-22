@@ -1,173 +1,100 @@
-#include "tests/tests.h"
-#include <GL/freeglut.h>
-#include <iostream>
-#include "Cube.h"
-#include "Math.h"
+#include <stdio.h>
 
-using namespace tests;
+//Graphics
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-bool light = false;
+//engine stuff
+#include "common/LoadShaders.h"
 
-Vector3D verts[24] = { Vector3D(0.5, -0.5, -0.5), Vector3D(0.5, 0.5, -0.5), Vector3D(-0.5, 0.5, -0.5), Vector3D(-0.5, -0.5, -0.5),
-                           Vector3D(0.5, -0.5, 0.5), Vector3D(0.5, 0.5, 0.5), Vector3D(-0.5, 0.5, 0.5), Vector3D(-0.5, -0.5, 0.5),
-                           Vector3D(0.5, -0.5, -0.5), Vector3D(0.5, 0.5, -0.5), Vector3D(0.5, 0.5, 0.5), Vector3D(0.5, -0.5, 0.5),
-                           Vector3D(-0.5, -0.5, 0.5), Vector3D(-0.5, 0.5, 0.5), Vector3D(-0.5, 0.5, -0.5), Vector3D(-0.5, -0.5, -0.5),
-                           Vector3D(0.5, 0.5, 0.5), Vector3D(0.5, 0.5, -0.5), Vector3D(-0.5, 0.5, -0.5), Vector3D(-0.5, 0.5, 0.5),
-                           Vector3D(0.5, -0.5, -0.5), Vector3D(0.5, -0.5, 0.5), Vector3D(-0.5, -0.5, 0.5), Vector3D(-0.5, -0.5, -0.5)};
+// Open a window and create its OpenGL context
+GLFWwindow* window; // (In the accompanying source code, this variable is global)
 
 
-Vector3D colours[6] = {Vector3D(1.0, 0.0, 0.0), Vector3D(0.0, 1.0, 0.0), Vector3D(0.0, 0.0, 1.0),
-                      Vector3D(0.5, 0.5, 0.5), Vector3D(0.0, 1.0, 1.0), Vector3D(0.3, 0.2, 0.1)};
+int main(void){
+    if(!glfwInit()){
+        fprintf(stderr, "Failed to initialize GLFW\n");
+        return -1;
+    }
+    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // We want OpenGL 3.3
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
 
-GLfloat angleCube = 0.0f;     // Rotational angle for cube [NEW]
-int refreshMills = 5;        // refresh interval in milliseconds [NEW]
-
-
-void timer(int value) {
-    glutPostRedisplay();      // Post re-paint request to activate display()
-    glutTimerFunc(refreshMills, timer, 0); // next timer call milliseconds later
-}
-
-void draw_a_cube(void) {
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
-    glEnable(GL_DEPTH_TEST);
-// Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
-
-    glLoadIdentity();                 // Reset the model-view matrix
-    glTranslatef(0.1f, 0.1f, 0.0f);  // Move right and into the screen
-    glRotatef(angleCube, 1.0f, 1.0f, 1.0f);
-
-    for (int i = 0; i < 6; i++) {
-        //glBegin(GL_LINE_STRIP);
-        glBegin(GL_LINES);
-
-        for (int j = 0; j < 4; j++){
-            glVertex3f(verts[(i * 4) + j].x, verts[(i * 4) + j].y, verts[(i * 4) + j].z);
-        }
+    window = glfwCreateWindow( 1024, 768, "City Engine", NULL, NULL);
+    if( window == NULL ){
+        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window); // Initialize GLEW
+    glewExperimental=(GLboolean) true; // Needed in core profile
+    if (glewInit() != GLEW_OK) {
+        fprintf(stderr, "Failed to initialize GLEW\n");
+        return -1;
     }
 
-    glEnd();
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-    for (int i = 0; i < 6; i++) {
-        //glBegin(GL_LINE_STRIP);
-        glBegin(GL_QUADS);
-        glColor3f(colours[i].x, colours[i].y, colours[i].z);
+    // Initialize the Vertex Array Object VAO
+    GLuint VertexArrayID;
+    glGenVertexArrays(1, &VertexArrayID);
+    glBindVertexArray(VertexArrayID);
 
-        for (int j = 0; j < 4; j++){
-            glVertex3f(verts[(i * 4) + j].x, verts[(i * 4) + j].y, verts[(i * 4) + j].z);
-        }
-    }
+    // Create and compile our GLSL program from the shaders
+    LoadShaders loadShaders = LoadShaders();
+    GLuint programID = loadShaders.loadShaders("../shaders/SimpleVertexShader.txt", "../shaders/SimpleFragmentShader.txt" );
 
-    glEnd();
-
-    //glRotatef(angleCube, 1.0f, 1.0f, 1.0f);  // Rotate about (1,1,1)-axis [NEW]
-    glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
-
-    // Update the rotational angle after each refresh [NEW]
-    angleCube -= 0.15f;
-}
-
-int main(int argc, char** argv)
-{
-    Vector3D centerPosition = Vector3D(1.f, 1.f, 1.f);
-    Vector3D eyePosition = Vector3D(0.f, 0.f, 0.f);
-    Vector3D upVector = Vector3D(0.f, 0.f, 1.f);
-
-    glutInit(&argc, argv);
-
-    // Reset transformations
-    glLoadIdentity();
-
-    gluLookAt(eyePosition.x, eyePosition.y, eyePosition.z, centerPosition.x, centerPosition.y, centerPosition.z, upVector.x, upVector.y, upVector.z);
-
-    glScalef(1,1,1);
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black and opaque
-    glClearDepth(1.0f);                   // Set background depth to farthest
-    glEnable(GL_DEPTH_TEST);   // Enable depth testing for z-culling
-    glDepthFunc(GL_LEQUAL);    // Set the type of depth-test
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  // Nice perspective corrections
-
-    glutInitDisplayMode(GLUT_SINGLE);
-    glutInitWindowSize(1024, 768);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("City Engine");
-    glShadeModel(GL_SMOOTH);   // Enable smooth shading
-    glEnable(GL_LIGHT1);
-
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 50.0 };
-    GLfloat light_position[] = { 0.0, 1.0, 1.0, 0.0 };
-
-    if (light){
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-
-        float ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-        float diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
-        float specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-        float position[] = { -1.5f, 1.0f, -4.0f, 1.0f };
-
-// Assign created components to GL_LIGHT0
-        glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
-        glLightfv(GL_LIGHT0, GL_POSITION, position);
-
-        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-        glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    // An array of 3 vectors which represents 3 vertices
+    static const GLfloat g_vertex_buffer_data[] = {
+            -1.0f, -1.0f, 0.0f,
+            1.0f, -1.0f, 0.0f,
+            0.0f,  1.0f, 0.0f,
+    };
 
 
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-        glEnable(GL_DEPTH_TEST);
-        glEnable ( GL_LIGHTING ) ;
+    // This will identify our vertex buffer
+    GLuint vertexbuffer;
+    // Generate 1 buffer, put the resulting identifier in vertexbuffer
+    glGenBuffers(1, &vertexbuffer);
+    // The following commands will talk about our 'vertexbuffer' buffer
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    // Give our vertices to OpenGL.
+    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-    }
+    do{
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glUseProgram(programID);
+        // Draw nothing, see you in tutorial 2 !
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glVertexAttribPointer(
+                0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+                3,                  // size
+                GL_FLOAT,           // type
+                GL_FALSE,           // normalized?
+                0,                  // stride
+                (void*)0            // array buffer offset
+        );
+// Draw the triangle !
+        glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+        glDisableVertexAttribArray(0);
 
-    glEnable(GL_LIGHT0);
+        // Swap buffers
+        glfwSwapBuffers(window);
+        glfwPollEvents();
 
-    glutDisplayFunc(draw_a_cube);
-    GLfloat angleCube = 0.0f;
-    glRotatef(angleCube, 1.5f, 0.8f, 1.0f);
-    glutTimerFunc(0, timer, 0);
-    glutMainLoop();
+    } // Check if the ESC key was pressed or the window was closed
+    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+           glfwWindowShouldClose(window) == 0 );
 
-    glutPostRedisplay();
+    glDeleteBuffers(1, &vertexbuffer);
+    glDeleteVertexArrays(1, &VertexArrayID);
+    glDeleteProgram(programID);
 
     return 0;
+
 }
-
-//int main() {
-    // Vector tests
-    // Test 1 Subtract
-    //tests::test1();
-    // Test 2 dot product
-    //tests::test2();
-    // Test 3 cross product
-    //tests::test3();
-    // Test 4 sum
-    //tests::test4();
-    // Test 5 multiply
-    //tests::test5();
-    // Test 6 magnitude
-    // tests::test6();  THIS ISN'T WORKING
-    // tests::test8();
-
-    //Matrix tests
-    // test7();
-
-    // test9();
-    // Matrix multiplication
-    // test10();
-    // Matrix subtraction
-    // test11();
-    // test12();
-
-//    return 0;
-//}
-
